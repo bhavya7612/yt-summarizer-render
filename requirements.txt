@@ -10,5 +10,5 @@ transformers
 nltk
 scikit-learn
 langdetect
-os
+os-sys
 gunicorn
