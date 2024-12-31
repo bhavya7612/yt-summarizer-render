@@ -7,6 +7,7 @@ from langdetect import detect
 import os
 import google.generativeai as genai
 import translator
+import requests
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -14,7 +15,7 @@ def get_transcript(video_id):
     try:
         transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
     except Exception as e:
-        raise e
+        print(f"Error is {e}")
     transcript_text = ' '.join([d['text'] for d in transcript_list])
     return transcript_text
 
