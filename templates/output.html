@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidBrief - Summary</title>
+    <link rel="stylesheet" href="../static/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="../static/css/output.css">
+</head>
+<body>
+    <header>
+        <div class="model"><a href="/project">&larr; Back</a></div>
+        <div class="home"><a href="/">Home</a></div>
+    </header>
+    <h2>{{title}}</h2>
+    <div class="container">
+        <div id="transcript">
+            <h2>Transcript</h2>
+            <div id="inner1">
+                {{transcript}}
+            </div>
+            <!-- <h3>{{tr_len}} words</h3> -->
+        </div>
+        <div id="summary">
+            <h2>Summary ({{lang}})</h2>
+            <div id="inner2">
+                {{summary}}
+            </div>
+            <!-- <h3>{{sum_len}} words</h3> -->
+        </div>
+    </div>
+</body>
+</html>
