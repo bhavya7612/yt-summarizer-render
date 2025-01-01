@@ -1,30 +1,17 @@
-from transformers import pipeline, T5Tokenizer
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.decomposition import TruncatedSVD
-from nltk.tokenize import sent_tokenize
 from youtube_transcript_api import YouTubeTranscriptApi
-from langdetect import detect
 import os
 import google.generativeai as genai
 import translator
-import requests
 from dotenv import load_dotenv
 load_dotenv()
 
 def get_transcript(video_id):
     try:
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
+        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, proxies={"https": "http://129.154.225.163:8100"})
     except Exception as e:
         print(f"Error is {e}")
     transcript_text = ' '.join([d['text'] for d in transcript_list])
     return transcript_text
-
-def is_transcript_english(transcript_text):
-    try:
-        language = detect(transcript_text)
-        return language == 'en'
-    except Exception as e:
-        return False
 
 def abstractive_summarization(transcript_text, lang, max_len):
     api_key=os.getenv("GEMINI_API_KEY")
@@ -48,45 +35,17 @@ def abstractive_summarization(transcript_text, lang, max_len):
     #     summary = summary + summary_text + ' '
     # return summary
 
-def extractive_summarization(transcript_text, lang):
-    try:
-        sentences = sent_tokenize(transcript_text)
-        
-        # Vectorize sentences
-        vectorizer = CountVectorizer(stop_words='english')
-        X = vectorizer.fit_transform(sentences)
-        
-        # Perform Truncated SVD for dimensionality reduction
-        svd = TruncatedSVD(n_components=1, random_state=42)
-        svd.fit(X)
-        components = svd.transform(X)
-        
-        # Rank sentences based on the first singular vector
-        ranked_sentences = [item[0] for item in sorted(enumerate(components), key=lambda item: -item[1])]
-        
-        # Select top sentences for summary
-        num_sentences = int(0.4 * len(sentences))  # 20% of the original sentences
-        selected_sentences = sorted(ranked_sentences[:num_sentences])
-        
-        # Compile the final summary
-        summary = " ".join([sentences[idx] for idx in selected_sentences])
-
-        # Translate the summary into desired language
-        response=translator.translate(summary, lang)
-        return response
-    except Exception as e:
-        raise e
-
 def summarise(video_id, max_len=150, lang="en"):
     try:
         transcript_text = get_transcript(video_id)
     except:
         return "No subtitles available for this video"
 
-    # Extractive summarization using LSA or Frequency-based method
-    if len(transcript_text.split()) > 3000:
-        summary = extractive_summarization(transcript_text, lang)
-    else:
-        summary = abstractive_summarization(transcript_text, lang, max_len)
+    summary = abstractive_summarization(transcript_text, lang, max_len)
 
     return summary
+
+if __name__=='__main__':
+    video_id='EBGb40yh4SY'
+    transcript=get_transcript(video_id)
+    print(transcript)
