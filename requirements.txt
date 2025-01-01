@@ -4,10 +4,4 @@ google-api-python-client
 google-generativeai
 googletrans==3.1.0a0
 python-dotenv
-numpy
-pandas
-transformers
-nltk
-scikit-learn
-langdetect
 gunicorn
