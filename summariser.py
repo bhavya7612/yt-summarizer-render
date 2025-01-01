@@ -7,7 +7,7 @@ load_dotenv()
 
 def get_transcript(video_id):
     try:
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, proxies={"https": "http://129.154.225.163:8100"})
+        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, proxies={"https": "http://103.147.98.122:8080"})
     except Exception as e:
         print(f"Error is {e}")
     transcript_text = ' '.join([d['text'] for d in transcript_list])
