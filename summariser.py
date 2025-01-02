@@ -5,13 +5,14 @@ import video_info
 from dotenv import load_dotenv
 load_dotenv()
 
+api_key=os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=api_key)
+
 def get_transcript(video_id):
-    transcript_text = video_info.get_video_transcript(video_id)
+    transcript_text = video_info.fetch_video_transcript(video_id)
     return transcript_text
 
 def abstractive_summarization(transcript_text, lang, max_len):
-    api_key=os.getenv("GEMINI_API_KEY")
-    genai.configure(api_key=api_key)
     prompt=f"You are Youtube transcript summarizer. Summarize the given transcript text within {max_len} words. The transcript text is:\n{transcript_text} "
     model=genai.GenerativeModel("gemini-1.5-pro")
     try:
