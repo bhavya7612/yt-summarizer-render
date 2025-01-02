@@ -21,7 +21,7 @@ def get_video_title(video_id):
 # fetch transcript through youtube-transcript-api
 def get_video_transcript(video_id):                                                # method-1
     proxies={
-        "http":f"{os.getenv('proxy1')}"
+        "http":f"{os.getenv('proxy2')}"
     }
 
     try:
