@@ -9,7 +9,7 @@ api_key=os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 
 def get_transcript(video_id):
-    transcript_text = video_info.fetch_video_transcript(video_id)
+    transcript_text = video_info.get_video_transcript(video_id)
     return transcript_text
 
 def abstractive_summarization(transcript_text, lang, max_len):
