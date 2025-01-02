@@ -1,16 +1,12 @@
-from youtube_transcript_api import YouTubeTranscriptApi
 import os
 import google.generativeai as genai
 import translator
+import video_info
 from dotenv import load_dotenv
 load_dotenv()
 
 def get_transcript(video_id):
-    try:
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, proxies={"https": "http://192.0.0.4"})
-    except Exception as e:
-        print(f"Error is {e}")
-    transcript_text = ' '.join([d['text'] for d in transcript_list])
+    transcript_text = video_info.get_video_transcript(video_id)
     return transcript_text
 
 def abstractive_summarization(transcript_text, lang, max_len):
