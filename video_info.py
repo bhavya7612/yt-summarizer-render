@@ -25,7 +25,7 @@ def get_video_transcript(video_id):                                             
     }
 
     try:
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, proxies={'https':'http://localhost:8080'})
+        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, proxies=proxies)
         transcript_text = ' '.join([d['text'] for d in transcript_list])
         return transcript_text
     
